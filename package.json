@@ -1,0 +1,14 @@
+{
+    "name": "echo-tools",
+    "version": "1.2.6",
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "scripts": {
+        "dtslint": "dtslint types --onlyTestTsNext"
+    },
+    "dependencies": {
+        "bignumber.js": "^9.0.0",
+        "web3": "^1.2.6"
+    }
+}
