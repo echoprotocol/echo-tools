@@ -5,10 +5,21 @@
         "node": ">=8.0.0"
     },
     "scripts": {
-        "dtslint": "dtslint types --onlyTestTsNext"
+        "build": "npx babel src --out-dir dist"
     },
+    "main": "./dist/index.js",
     "dependencies": {
+        "@babel/runtime-corejs3": "^7.6.0",
         "bignumber.js": "^9.0.0",
         "web3": "^1.2.6"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.2.3",
+        "@babel/core": "^7.2.2",
+        "@babel/node": "^7.5.5",
+        "@babel/plugin-transform-runtime": "^7.6.0",
+        "@babel/polyfill": "^7.7.0",
+        "@babel/preset-env": "^7.3.1",
+        "@babel/register": "^7.0.0"
     }
 }
