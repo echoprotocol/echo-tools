@@ -2,6 +2,7 @@ import Transaction from './transaction';
 import registrarAccount from './registrar';
 import EchoTools from './echo-tools';
 
-export default EchoTools;
+declare const echoTools: EchoTools;
+export default echoTools;
 
 export { Transaction, registrarAccount };
