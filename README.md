@@ -10,32 +10,19 @@ npm install echo-tools
 ```javascript
 const { default: echoTools } = require('echo-tools');
 
-await echoTools.connect(
-  'ws://127.0.0.1:9000', 
-  {
-    apis: ['database', 'registration'],
-    registration: { batch: 1e3, timeout: 10 },
-  }
-);
-
+await echoTools.connect('ws://127.0.0.1:9000');
 ```
 
 You also can use it with import
 ```javascript
-import echoTools, { Transaction, registrarAccount } from 'echo-tools';
+import echoTools from 'echo-tools';
 
-await echoTools.connect(
-  'ws://127.0.0.1:9000', 
-  {
-    apis: ['database', 'registration'],
-    registration: { batch: 1e3, timeout: 10 },
-  }
-);
+await echoTools.connect('ws://127.0.0.1:9000');
 ```
 
 Create, sign and serialize transaction
 ```javascript
-const { Transaction } = require('echo-tools');
+import { Transaction } from 'echo-tools';
 
 const options = {
   gas: '0x0190',
@@ -53,7 +40,7 @@ tx.serialize();
 
 For register account (should use private key)
 ```javascript
-const { registrarAccount } = require('echo-tools');
+import { registrarAccount } from 'echo-tools';
 
 await registrarAccount('private_key');
 ```

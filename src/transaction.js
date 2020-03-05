@@ -1,6 +1,7 @@
 import BN from 'bignumber.js';
 import { PrivateKey, Transaction, constants } from 'echojs-lib';
 import echoTools from './echo-tools';
+import { validateTx } from './utils/validators';
 
 class Tx {
 
@@ -10,6 +11,8 @@ class Tx {
 	}
 
 	convertToEcho(tx) {
+		validateTx(tx);
+
 		const fromConvertedToEcho = new BN(tx.from.slice(-2), 16).toString(10);
 		const toConvertedToEcho = tx.to && new BN(tx.to.slice(-2), 16).toString(10);
 		this._operationName = constants.OPERATIONS_IDS.TRANSFER;
