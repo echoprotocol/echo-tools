@@ -1,16 +1,34 @@
 {
     "name": "echo-tools",
-    "version": "1.2.6",
-    "engines": {
-        "node": ">=8.0.0"
-    },
-    "scripts": {
-        "build": "npx babel src --out-dir dist"
-    },
+    "version": "0.1.0",
+    "description": "JavaScript ECHO library for register accounts and work with transactions node.js",
     "main": "./dist/index.js",
+    "types": "./types/index.d.ts",
+    "scripts": {
+        "build": "npx babel src --out-dir dist",
+        "check-typing": "npx tsc",
+        "lint": "eslint .",
+        "lint:debug": "npm run lint -- --debug",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "homepage": "https://github.com/echoprotocol/echo-tools",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/echoprotocol/echo-tools.git"
+    },
+    "author": {
+        "name": "PixelPlex, Inc.",
+        "email": "info@pixelplex.io",
+        "url": "https://pixelplex.io"
+    },
+    "bugs": {
+        "url": "https://gitlab.pixelplex.by/645.echo/echo-tools/issues"
+    },
+    "license": "MIT",
     "dependencies": {
         "@babel/runtime-corejs3": "^7.6.0",
         "bignumber.js": "^9.0.0",
+        "echojs-lib": "^1.10.0-rc.3",
         "web3": "^1.2.6"
     },
     "devDependencies": {
@@ -20,6 +38,11 @@
         "@babel/plugin-transform-runtime": "^7.6.0",
         "@babel/polyfill": "^7.7.0",
         "@babel/preset-env": "^7.3.1",
-        "@babel/register": "^7.0.0"
+        "@babel/register": "^7.0.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^18.0.1",
+        "eslint-plugin-import": "^2.20.1",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-react": "^7.18.3"
     }
 }
