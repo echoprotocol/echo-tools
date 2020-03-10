@@ -58,14 +58,6 @@ class Tx {
 		return this._txOperations;
 	}
 
-	set serializedTx(tx) {
-		this._serializedTx = tx;
-	}
-
-	get serializedTx() {
-		return this._serializedTx;
-	}
-
 	set transaction(tx) {
 		this._transaction = new Transaction();
 	}
@@ -81,13 +73,12 @@ class Tx {
 		this.transaction.refBlockPrefix = block.hash.slice(26);
 		const chainId = await echoTools.web3.chainId();
 		this.transaction.chainId = chainId.slice(2);
-		const privateKey = PrivateKey.fromWif(_privateKey);
+		const privateKey = PrivateKey.fromBuffer(_privateKey);
 		await this.transaction.sign(privateKey);
 	}
 
 	serialize() {
-		this.serializedTx = this.transaction.signedTransactionSerializer().toString('hex');
-		return this.serializedTx;
+		return this.transaction.signedTransactionSerializer();
 	}
 
 }
