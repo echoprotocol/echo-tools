@@ -7,4 +7,6 @@ export default class Tx {
   convertToEcho<T extends OperationId>(tx: TOperationInput<T, true>[1]): SerializerOutput<OperationSerializer>[];
   sign(privateKey?: PrivateKey): Promise<void>;
   serialize(): Buffer;
+  serializedTx(): SerializerOutput<OperationSerializer>[];
+  operationName(): number;
 }

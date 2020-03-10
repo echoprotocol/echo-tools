@@ -41,7 +41,7 @@ class Tx {
 			...transferData,
 			eth_accuracy: false,
 			code: tx.data && tx.data.slice(2),
-			fee: { asset_id: '1.3.0', amount: new BN(tx.gas, 16).toString(10) },
+			fee: { asset_id: '1.3.0', amount: new BN(tx.gasLimit, 16).toString(10) },
 			...(tx.to && callee),
 		};
 	}
@@ -81,7 +81,7 @@ class Tx {
 		this.transaction.refBlockPrefix = block.hash.slice(26);
 		const chainId = await echoTools.web3.chainId();
 		this.transaction.chainId = chainId.slice(2);
-		const privateKey = PrivateKey.fromWif(_privateKey);
+		const privateKey = PrivateKey.fromSeed(_privateKey.toString('hex'));
 		await this.transaction.sign(privateKey);
 	}
 

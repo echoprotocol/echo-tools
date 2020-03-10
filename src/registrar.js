@@ -3,12 +3,9 @@ import BN from 'bignumber.js';
 import echoTools from './echo-tools';
 import ECHO_NAME from './constants';
 import solveRegistrationTask from './utils/pow-solver';
-import { validatePrivateKey } from './utils/validators';
 
 export default async function registrarAccount(privateKey) {
-
-	validatePrivateKey(privateKey);
-	const key = (PrivateKey.fromSeed(privateKey).toPublicKey()).toPublicKeyString();
+	const key = PrivateKey.fromBuffer(privateKey).toPublicKey().toString();
 	const { ECHO_NAME_PREFIX } = ECHO_NAME;
 	const makeAccountNameByPublicKey = (publicKey) => `${ECHO_NAME_PREFIX}${hash.sha256(publicKey, 'hex').slice(0, 20)}`;
 	const accountName = makeAccountNameByPublicKey(key);

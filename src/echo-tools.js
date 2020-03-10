@@ -2,11 +2,6 @@ import Web3 from 'web3';
 
 class EchoTools {
 
-	constructor(provider) {
-		this.provider = provider;
-		this.web3 = new Web3(provider);
-	}
-
 	set web3(provider) {
 		this._web3 = new Web3(provider);
 	}
