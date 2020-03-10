@@ -16,10 +16,10 @@ class Tx {
 		const signedBytes = withoutPrefix.substring(0, 2);
 		switch (signedBytes) {
 			case '00':
-				idType = constants.PROTOCOL_OBJECT_TYPE_ID.;
+				idType = constants.PROTOCOL_OBJECT_TYPE_ID.ACCOUNT;
 				break;
 			case '01':
-				idType = '11';
+				idType = constants.PROTOCOL_OBJECT_TYPE_ID.CONTRACT;
 				break;
 			default:
 				throw new Error('Incorrect first byte of address. Must be 00 or 01');
