@@ -10,30 +10,49 @@ class Tx {
 		this.txOperations = txOpts;
 	}
 
+	addressToId(ethLikeAddress) {
+		let idType = '';
+		const withoutPrefix = ethLikeAddress.replace('0x', '');
+		const signedBytes = withoutPrefix.substring(0, 2);
+		switch (signedBytes) {
+			case '00':
+				idType = constants.PROTOCOL_OBJECT_TYPE_ID.;
+				break;
+			case '01':
+				idType = '11';
+				break;
+			default:
+				throw new Error('Incorrect first byte of address. Must be 00 or 01');
+		}
+		const idInstance = withoutPrefix.slice(-16);
+		const id = Number(`0x${idInstance}`).toString(10);
+		return `1.${idType}.${id}`;
+	}
+
 	convertToEcho(tx) {
 		validateTx(tx);
 
-		const fromConvertedToEcho = new BN(tx.from.slice(-2), 16).toString(10);
-		const toConvertedToEcho = tx.to && new BN(tx.to.slice(-2), 16).toString(10);
+		const fromConvertedToEcho = this.addressToId(tx.from);
+		const toConvertedToEcho = tx.to && this.addressToId(tx.to);
 		this._operationName = constants.OPERATIONS_IDS.TRANSFER;
 
 		let transferData = {
-			from: `1.2.${fromConvertedToEcho}`,
+			from: `${fromConvertedToEcho}`,
 			amount: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
 		};
 
 		if (tx.data) {
 			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CREATE;
 			transferData = {
-				registrar: `1.2.${fromConvertedToEcho}`,
+				registrar: `${fromConvertedToEcho}`,
 				value: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
 			};
 		}
 
-		let callee = { to: `1.2.${toConvertedToEcho}` };
+		let callee = { to: `${toConvertedToEcho}` };
 
 		if (tx.to && tx.data) {
-			callee = { callee: `1.11.${toConvertedToEcho}` };
+			callee = { callee: `${toConvertedToEcho}` };
 			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CALL;
 		}
 
