@@ -81,7 +81,7 @@ class Tx {
 		this.transaction.refBlockPrefix = block.hash.slice(26);
 		const chainId = await echoTools.web3.chainId();
 		this.transaction.chainId = chainId.slice(2);
-		const privateKey = PrivateKey.fromSeed(_privateKey.toString('hex'));
+		const privateKey = PrivateKey.fromWif(_privateKey);
 		await this.transaction.sign(privateKey);
 	}
 
