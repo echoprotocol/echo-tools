@@ -1,10 +1,12 @@
 import { PrivateKey, hash } from 'echojs-lib';
 import BN from 'bignumber.js';
+
 import echoTools from './echo-tools';
 import ECHO_NAME from './constants';
 import solveRegistrationTask from './utils/pow-solver';
+import getEvmAddress from './utils/evm-address';
 
-export default async function registrarAccount(privateKey) {
+export default async function registrarAccount(privateKey, useEvmAddress = true) {
 	const key = PrivateKey.fromBuffer(privateKey).toPublicKey().toString();
 	const { ECHO_NAME_PREFIX } = ECHO_NAME;
 	const makeAccountNameByPublicKey = (publicKey) => `${ECHO_NAME_PREFIX}${hash.sha256(publicKey, 'hex').slice(0, 20)}`;
@@ -15,5 +17,6 @@ export default async function registrarAccount(privateKey) {
 	const convertedDifficulty = new BN(difficulty, 16).toString(10);
 	const nonce = await solveRegistrationTask(blockId.slice(26), convertedRandNum, convertedDifficulty);
 	const convertedNonce = `0x${nonce.toString(16)}`;
-	return echoTools.web3.submitRegistrationSolution(accountName, key, key, convertedNonce, randNum);
+	const evmAddress = useEvmAddress ? getEvmAddress(privateKey) : null;
+	return echoTools.web3.submitRegistrationSolution(accountName, key, key, evmAddress, convertedNonce, randNum);
 }

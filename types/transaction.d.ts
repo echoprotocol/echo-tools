@@ -5,7 +5,7 @@ import PrivateKey from "echojs-lib/types/crypto/private-key";
 
 export default class Tx {
   convertToEcho<T extends OperationId>(tx: TOperationInput<T, true>[1]): SerializerOutput<OperationSerializer>[];
-  sign(privateKey?: PrivateKey): Promise<void>;
+  sign(privateKey: Buffer): Promise<void>;
   serialize(): Buffer;
   operationName(): number;
 }

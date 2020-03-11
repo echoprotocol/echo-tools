@@ -29,6 +29,7 @@
         "@babel/runtime-corejs3": "^7.6.0",
         "bignumber.js": "^9.0.0",
         "echojs-lib": "^1.10.0-rc.3",
+        "ethereumjs-wallet": "^0.6.3",
         "web3": "^1.2.6"
     },
     "devDependencies": {

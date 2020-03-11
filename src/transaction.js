@@ -25,7 +25,7 @@ class Tx {
 				throw new Error('Incorrect first byte of address. Must be 00 or 01');
 		}
 		const idInstance = withoutPrefix.slice(-16);
-		const id = Number(`0x${idInstance}`).toString(10);
+		const id = new BN(idInstance, 16).toString(10);
 		return `1.${idType}.${id}`;
 	}
 
@@ -37,22 +37,22 @@ class Tx {
 		this._operationName = constants.OPERATIONS_IDS.TRANSFER;
 
 		let transferData = {
-			from: `${fromConvertedToEcho}`,
+			from: fromConvertedToEcho,
 			amount: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
 		};
 
 		if (tx.data) {
 			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CREATE;
 			transferData = {
-				registrar: `${fromConvertedToEcho}`,
+				registrar: fromConvertedToEcho,
 				value: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
 			};
 		}
 
-		let callee = { to: `${toConvertedToEcho}` };
+		let callee = { to: toConvertedToEcho };
 
 		if (tx.to && tx.data) {
-			callee = { callee: `${toConvertedToEcho}` };
+			callee = { callee: toConvertedToEcho };
 			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CALL;
 		}
 
