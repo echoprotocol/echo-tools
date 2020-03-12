@@ -9,6 +9,6 @@ export const validateTx = (tx) => {
 	if ('to' in tx && !isEthereumAddress(tx.to)) throw new Error('invalid Ethereum address "to"');
 	if (!isEthereumAddress(tx.from)) throw new Error('invalid Ethereum address "from"');
 	if ('data' in tx && !validators.isHex(tx.data)) throw new Error('invalid transaction "data"');
-	if (!validators.isUInt32(convertToBN(tx.gasLimit))) throw new Error('transaction gasLimit should not be negative');
-	if (!validators.isUInt32(convertToBN(tx.value))) throw new Error('transaction value should not be negative');
+	if (!validators.isUInt64(convertToBN(tx.gasLimit))) throw new Error('transaction gasLimit should not be negative');
+	if (!validators.isUInt64(convertToBN(tx.value))) throw new Error('transaction value should not be negative');
 };
