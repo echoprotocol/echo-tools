@@ -2,6 +2,7 @@ import BN from 'bignumber.js';
 import { PrivateKey, Transaction, constants } from 'echojs-lib';
 import echoTools from './echo-tools';
 import { validateTx } from './utils/validators';
+import addressToId from './utils/address-to-id';
 
 class Tx {
 
@@ -10,58 +11,37 @@ class Tx {
 		this.txOperations = txOpts;
 	}
 
-	addressToId(ethLikeAddress) {
-		let idType = '';
-		const withoutPrefix = ethLikeAddress.replace('0x', '');
-		const signedBytes = withoutPrefix.substring(0, 2);
-		switch (signedBytes) {
-			case '00':
-				idType = constants.PROTOCOL_OBJECT_TYPE_ID.ACCOUNT;
-				break;
-			case '01':
-				idType = constants.PROTOCOL_OBJECT_TYPE_ID.CONTRACT;
-				break;
-			default:
-				throw new Error('Incorrect first byte of address. Must be 00 or 01');
-		}
-		const idInstance = withoutPrefix.slice(-16);
-		const id = new BN(idInstance, 16).toString(10);
-		return `1.${idType}.${id}`;
-	}
-
 	convertToEcho(tx) {
 		validateTx(tx);
 
-		const fromConvertedToEcho = this.addressToId(tx.from);
-		const toConvertedToEcho = tx.to && this.addressToId(tx.to);
+		const fromConvertedToEcho = addressToId(tx.from);
+		const toConvertedToEcho = tx.to && addressToId(tx.to);
 		this._operationName = constants.OPERATIONS_IDS.TRANSFER;
 
-		let transferData = {
+		let transactionData = {
 			from: fromConvertedToEcho,
 			amount: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
+			to: toConvertedToEcho,
 		};
 
 		if (tx.data) {
 			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CREATE;
-			transferData = {
+			transactionData = {
 				registrar: fromConvertedToEcho,
 				value: { asset_id: '1.3.0', amount: new BN(tx.value, 16).toString(10) },
+				code: tx.data.slice(2),
+				eth_accuracy: false,
 			};
-		}
 
-		let callee = { to: toConvertedToEcho };
-
-		if (tx.to && tx.data) {
-			callee = { callee: toConvertedToEcho };
-			this._operationName = constants.OPERATIONS_IDS.CONTRACT_CALL;
+			if (tx.to) {
+				this._operationName = constants.OPERATIONS_IDS.CONTRACT_CALL;
+				transactionData.callee = toConvertedToEcho;
+			}
 		}
 
 		return {
-			...transferData,
-			eth_accuracy: false,
-			code: tx.data && tx.data.slice(2),
+			...transactionData,
 			fee: { asset_id: '1.3.0', amount: new BN(tx.gasLimit, 16).toString(10) },
-			...(tx.to && callee),
 		};
 	}
 

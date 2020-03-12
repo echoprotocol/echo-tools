@@ -1,7 +1,7 @@
 import { validators } from 'echojs-lib';
 import BN from 'bignumber.js';
 
-const isEthereumAddress = (v) => v.length === 42 && v.slice(0, 2) === '0x' && validators.isBytes(v.slice(2), 20);
+export const isEthereumAddress = (v) => v.length === 42 && v.slice(0, 2) === '0x' && validators.isBytes(v.slice(2), 20);
 const convertToBN = (v) => new BN(v, 16).toString(10);
 
 export const validateTx = (tx) => {
