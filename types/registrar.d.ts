@@ -1,1 +1,1 @@
-export default function registrarAccount(privateKey: string): Promise<string>;
+export default function registrarAccount(privateKey: Buffer, useEvmAddress?: boolean): Promise<string>;

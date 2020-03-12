@@ -29,7 +29,7 @@ class EchoTools {
 				{
 					name: 'submitRegistrationSolution',
 					call: 'echo_submitRegistrationSolution',
-					params: 5,
+					params: 6,
 				},
 				{
 					name: 'chainId',
