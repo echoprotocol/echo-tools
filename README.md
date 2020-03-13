@@ -45,6 +45,13 @@ import { registrarAccount } from 'echo-tools';
 await registrarAccount('private_key');
 ```
 
+For get address reference from eth_address to echo_address
+```javascript
+import { getAddressReference } from 'echo-tools';
+
+await getAddressReference('eth_address');
+```
+
 # License
 
 The MIT License
