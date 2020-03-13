@@ -35,6 +35,11 @@ class EchoTools {
 					name: 'chainId',
 					call: 'eth_chainId',
 				},
+				{
+					name: 'getAddressReference',
+					call: 'echo_getAddressReference',
+					params: 1,
+				},
 			],
 		});
 	}
