@@ -21,6 +21,6 @@ publish:
     - ./publish/publish.sh
     - rm .npmrc
   tags:
-    - pp-shell
+    - pp-builder
   only:
     - tags
