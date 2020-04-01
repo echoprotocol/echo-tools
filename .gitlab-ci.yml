@@ -18,7 +18,7 @@ publish:
   script:
     - npm i
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-    - ./publish/publish.sh
+    - ./publish.sh
     - rm .npmrc
   tags:
     - pp-builder
